@@ -1,0 +1,49 @@
+{
+  "layer": "top",
+  "position": "bottom",
+  "height": 28,
+  "spacing": 0,
+  "margin-bottom": 6,
+  "margin-left": 12,
+  "margin-right": 12,
+
+  "modules-left": [
+    "niri/workspaces"
+  ],
+
+  "modules-center": [
+    "clock"
+  ],
+
+  "modules-right": [
+    "memory",
+    "cpu",
+    "pulseaudio",
+    "clock"
+  ],
+
+  "niri/workspaces": {
+    "format": "●",
+    "format-inactive": "○"
+  },
+
+  "clock": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%d %b %Y}"
+  },
+
+  "memory": {
+    "format": "mem {}%",
+    "interval": 5
+  },
+
+  "cpu": {
+    "format": "cpu {usage}%",
+    "interval": 5
+  },
+
+  "pulseaudio": {
+    "format": "vol {volume}%",
+    "format-muted": "muted"
+  }
+}
