@@ -1,0 +1,4 @@
+atmospheres/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+atmospheres/**/*.png filter=lfs diff=lfs merge=lfs -text
+atmospheres/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+atmospheres/**/*.webp filter=lfs diff=lfs merge=lfs -text
