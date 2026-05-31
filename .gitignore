@@ -1,0 +1,7 @@
+home/waybar/colors.css
+home/ghostty/colors.conf
+home/fish/colors.fish
+.cache/
+*.swp
+*.swo
+.DS_Store
