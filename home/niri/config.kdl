@@ -148,7 +148,7 @@ layout {
 // STARTUP
 // ============================================================
 spawn-at-startup "waybar"
-
+spawn-at-startup "breathe-switch" "restore"
 
 // ============================================================
 // MISC
@@ -201,6 +201,7 @@ binds {
     
     // Aplicativos
     Mod+T   { spawn "ghostty"; }
+    Mod+D   { spawn "fuzzel"; }
     Mod+E   { spawn "nautilus"; }
     Mod+B   { spawn "firefox"; }
     Mod+Z   { spawn "zeditor"; }
