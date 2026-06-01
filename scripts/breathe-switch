@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+BREATHE_DIR="$HOME/breathe"
+ATMOSPHERES_DIR="$BREATHE_DIR/atmospheres"
+CURRENT_FILE="$HOME/.config/breathe/current"
+
+# cria o diretório de estado se não existir
+mkdir -p "$HOME/.config/breathe"
+
+# funções
+usage() {
+  echo "usage: breathe-switch <atmosphere|restore|list>"
+  echo ""
+  echo "atmospheres disponíveis:"
+  ls "$ATMOSPHERES_DIR"
+  exit 1
+}
+
+list_atmospheres() {
+  ls "$ATMOSPHERES_DIR"
+}
+
+restore() {
+  if [ ! -f "$CURRENT_FILE" ]; then
+    echo "[breathe] nenhuma atmosfera salva, usando forest"
+    switch_atmosphere "forest"
+  else
+    local atm=$(cat "$CURRENT_FILE")
+    echo "[breathe] restaurando $atm"
+    switch_atmosphere "$atm"
+  fi
+}
+
+switch_atmosphere() {
+  local ATM=$1
+  local ATM_DIR="$ATMOSPHERES_DIR/$ATM"
+  local WALLS_DIR="$ATM_DIR/wallpapers"
+
+  # verifica se atmosfera existe
+  if [ ! -d "$ATM_DIR" ]; then
+    echo "[breathe] atmosfera '$ATM' não encontrada"
+    exit 1
+  fi
+
+  echo "[breathe] switching to $ATM"
+
+  # escolhe wallpaper aleatório
+  local WALL=$(find "$WALLS_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | shuf -n 1)
+
+  if [ -z "$WALL" ]; then
+    echo "[breathe] nenhum wallpaper encontrado em $WALLS_DIR"
+    exit 1
+  fi
+
+  echo "[breathe] wallpaper: $(basename $WALL)"
+
+  # seta wallpaper
+  killall swaybg 2>/dev/null
+  swaybg -i "$WALL" -m fill &
+
+  # gera cores com pywal
+  wal -i "$WALL" -n -q
+
+  # recarrega waybar
+  killall waybar 2>/dev/null
+  waybar &
+
+  # salva atmosfera atual
+  echo "$ATM" > "$CURRENT_FILE"
+
+  echo "[breathe] $ATM loaded"
+}
+
+# main
+case "$1" in
+  restore)
+    restore
+    ;;
+  list)
+    list_atmospheres
+    ;;
+  "")
+    usage
+    ;;
+  *)
+    switch_atmosphere "$1"
+    ;;
+esac
